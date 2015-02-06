@@ -7,6 +7,8 @@
 // │ Copyright (c) 2008-2011 Sencha Labs (http://sencha.com)             │ \\
 // │ Licensed under the MIT (http://raphaeljs.com/license.html) license. │ \\
 // └─────────────────────────────────────────────────────────────────────┘ \\
+// 
+require('./core');
 window.Raphael && window.Raphael.svg && function(R) {
     var has = "hasOwnProperty",
         Str = String,
@@ -354,6 +356,88 @@ window.Raphael && window.Raphael.svg && function(R) {
                     case "arrow-end":
                         addArrow(o, value, 1);
                         break;
+                    case "clip-angle":
+                        var angle = Str(value).split(separator);
+                        if(angle.length == 4){
+                            var center = {
+                                x: parseInt(angle[0],10),
+                                y: parseInt(angle[1],10)
+                            };
+                            var RAD = Math.PI / 180;
+                            var _getCoord = function(angle,r){
+                                var self = this;
+                                var rst = {};
+                                  rst.x = center.x + r * Math.sin(angle * RAD);
+                                  rst.y = center.y - r * Math.cos(angle * RAD);
+                                return rst;
+                            };
+                            var getPiePath = function(startAngle, endAngle,r) {
+                              var path,
+                                cx = center.x,
+                                cy = center.y,
+                                start = _getCoord(startAngle,r),
+                                end = _getCoord(endAngle,r);
+
+                              path =  ["M", cx + ",", cy, "L", start.x + ",", start.y, "A", r + ",", r + ",", 0 + ",", +(endAngle - startAngle > 180) + ",", 1 + ",", end.x + ",", end.y, "z"];
+                              
+                              return path.join('');
+                            };
+
+                            o.clip && o.clip.parentNode.parentNode.removeChild(o.clip.parentNode);
+                            var el = $("clipPath"),
+                                pt = $("path");
+
+                            el.id = R.createUUID();
+                            var p = getPiePath(0, parseInt(angle[3],10),parseInt(angle[2],10));
+                            $(pt, {
+                                d: p,
+                                fill: '#ffffff',
+                                stroke: '#000000',
+                                'stroke-width': 1.5
+                            });
+                            el.appendChild(pt);
+                            o.paper.defs.appendChild(el);
+                            $(node, {"clip-path": "url(#" + el.id + ")"});
+                            o.clip = pt;
+                        }
+                        if (!value) {
+                            var path = node.getAttribute("clip-path");
+                            if (path) {
+                                var clip = R._g.doc.getElementById(path.replace(/(^url\(#|\)$)/g, E));
+                                clip && clip.parentNode.removeChild(clip);
+                                $(node, {"clip-path": E});
+                                delete o.clip;
+                            }
+                        }
+                    break;
+                    case "clip-circle":
+                        var circle = Str(value).split(separator);
+                        if(circle.length == 3){
+                            o.clip && o.clip.parentNode.parentNode.removeChild(o.clip.parentNode);
+                            var el = $("clipPath"),
+                                cc = $("circle");
+
+                            el.id = R.createUUID();
+                            $(cc, {
+                                cx: circle[0],
+                                cy: circle[1],
+                                r: circle[2]
+                            });
+                            el.appendChild(cc);
+                            o.paper.defs.appendChild(el);
+                            $(node, {"clip-path": "url(#" + el.id + ")"});
+                            o.clip = cc;
+                        }
+                        if (!value) {
+                            var path = node.getAttribute("clip-path");
+                            if (path) {
+                                var clip = R._g.doc.getElementById(path.replace(/(^url\(#|\)$)/g, E));
+                                clip && clip.parentNode.removeChild(clip);
+                                $(node, {"clip-path": E});
+                                delete o.clip;
+                            }
+                        }
+                    break;
                     case "clip-rect":
                         var rect = Str(value).split(separator);
                         if (rect.length == 4) {

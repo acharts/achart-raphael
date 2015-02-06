@@ -183,6 +183,8 @@ require('./eve');
             "arrow-start": "none",
             blur: 0,
             "clip-rect": "0 0 1e9 1e9",
+            "clip-angle": "0 0 1e9 1e9",
+            "clip-circle": "0 0 1e9",
             cursor: "default",
             cx: 0,
             cy: 0,
@@ -221,6 +223,8 @@ require('./eve');
         availableAnimAttrs = R._availableAnimAttrs = {
             blur: nu,
             "clip-rect": "csv",
+            "clip-angle": "csv",
+            "clip-circle": "csv",
             cx: nu,
             cy: nu,
             fill: "colour",
@@ -4164,6 +4168,19 @@ require('./eve');
                                     while (i--) {
                                         now[i] = +from[attr][i] + pos * ms * diff[attr][i];
                                     }
+                                }else if(attr == "clip-circle"){
+                                    now = [];
+                                    i = 3;
+                                    while (i--) {
+                                        now[i] = +from[attr][i] + pos * ms * diff[attr][i];
+                                    }
+                                }
+                                else if(attr == "clip-angle"){
+                                    now = [];
+                                    i = 4;
+                                    while (i--) {
+                                        now[i] = +from[attr][i] + pos * ms * diff[attr][i];
+                                    }
                                 }
                                 break;
                             default:
@@ -4496,7 +4513,7 @@ require('./eve');
                         case "csv":
                             var values = Str(params[attr])[split](separator),
                                 from2 = Str(from[attr])[split](separator);
-                            if (attr == "clip-rect") {
+                            if (attr == "clip-rect"  || attr == "clip-circle" || attr == "clip-angle" ) {
                                 from[attr] = from2;
                                 diff[attr] = [];
                                 i = from2.length;
