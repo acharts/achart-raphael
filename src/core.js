@@ -6,20 +6,21 @@
 // │ Licensed under the MIT (http://raphaeljs.com/license.html) license. │ \\
 // └─────────────────────────────────────────────────────────────────────┘ \\
 
-require('./eve');
 
 (function (glob, factory) {
     // AMD support
-    if (typeof define === "function" && define.amd) {
+    /*if (typeof define === "function" && define.amd) {
         // Define as an anonymous module
         define(["eve"], function( eve ) {
             return factory(glob, eve);
         });
-    } else {
+    } else {*/
         // Browser globals (glob is window)
         // Raphael adds itself to window
-        factory(glob, glob.eve);
-    }
+    var eve = require('./eve');
+
+    factory(glob,eve);
+    //}
 }(this, function (window, eve) {
     /*\
      * Raphael

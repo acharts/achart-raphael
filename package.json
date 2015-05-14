@@ -1,6 +1,6 @@
 {
   "name": "achart-raphael",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "raphael for acharts",
   "keywords": ["acharts"],
   "homepage": "",
@@ -24,7 +24,6 @@
     },
     "engines": {
       "seajs": "2.2.1"
-    },
-    "tests": "tests/*.js"
+    }
   }
 }

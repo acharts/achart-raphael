@@ -13,9 +13,22 @@ describe('achart-raphael', function() {
   it('raphael create', function() {
     expect(paper).not.to.be(undefined);
   });
-  it('circle',function(){
+ /* it('circle',function(){
     var circle = paper.circle(50, 40, 10);
     // Sets the fill attribute of the circle to red (#f00)
     circle.attr("fill", "#f00");
+  });*/
+
+  it('clip animate',function(){
+    var circle = paper.circle(50, 40, 10);
+    // Sets the fill attribute of the circle to red (#f00)
+    circle.attr("fill", "#f00");
+
+    circle.attr('clip-rect', '0,0,0,0');
+
+
+    circle.animate({
+      'clip-rect' : '0,0,100,100'
+    },10000);/**/
   });
 });
