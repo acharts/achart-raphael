@@ -6,17 +6,17 @@
 // │ Licensed under the MIT (http://raphaeljs.com/license.html) license. │ \\
 // └─────────────────────────────────────────────────────────────────────┘ \\
 
-
+var vector = require('./vector');
 (function (glob, factory) {
     // AMD support
     /*if (typeof define === "function" && define.amd) {
-        // Define as an anonymous module
-        define(["eve"], function( eve ) {
-            return factory(glob, eve);
-        });
-    } else {*/
-        // Browser globals (glob is window)
-        // Raphael adds itself to window
+     // Define as an anonymous module
+     define(["eve"], function( eve ) {
+     return factory(glob, eve);
+     });
+     } else {*/
+    // Browser globals (glob is window)
+    // Raphael adds itself to window
     var eve = require('./eve');
 
     factory(glob,eve);
@@ -71,7 +71,7 @@
      |     y: 40,
      |     text: "Dump"
      | }]);
-    \*/
+     \*/
     function R(first) {
         if (R.is(first, "function")) {
             return loaded ? first() : eve.on("raphael.DOMload", first);
@@ -111,7 +111,7 @@
              [ property (object) ]
              **
              * Shortcut for @Paper.customAttributes
-            \*/
+             \*/
             /*\
              * Paper.customAttributes
              [ property (object) ]
@@ -137,7 +137,7 @@
              | };
              | c.attr({hsb: "0.5 .8 1"});
              | c.animate({hsb: [1, 0, 0.5]}, 1e3);
-            \*/
+             \*/
             this.ca = this.customAttributes = {};
         },
         paperproto,
@@ -305,16 +305,16 @@
                 return rectPath(bbox.x, bbox.y, bbox.width, bbox.height);
             }
         },
-        /*\
-         * Raphael.mapPath
-         [ method ]
-         **
-         * Transform the path string with given matrix.
-         > Parameters
-         - path (string) path string
-         - matrix (object) see @Matrix
-         = (string) transformed path string
-        \*/
+    /*\
+     * Raphael.mapPath
+     [ method ]
+     **
+     * Transform the path string with given matrix.
+     > Parameters
+     - path (string) path string
+     - matrix (object) see @Matrix
+     = (string) transformed path string
+     \*/
         mapPath = R.mapPath = function (path, matrix) {
             if (!matrix) {
                 return path;
@@ -339,7 +339,7 @@
      [ property (string) ]
      **
      * Can be “SVG”, “VML” or empty, depending on browser support.
-    \*/
+     \*/
     R.type = (g.win.SVGAngle || g.doc.implementation.hasFeature("http://www.w3.org/TR/SVG11/feature#BasicStructure", "1.1") ? "SVG" : "VML");
     if (R.type == "VML") {
         var d = g.doc.createElement("div"),
@@ -357,13 +357,13 @@
      [ property (boolean) ]
      **
      * `true` if browser supports SVG.
-    \*/
+     \*/
     /*\
      * Raphael.vml
      [ property (boolean) ]
      **
      * `true` if browser supports VML.
-    \*/
+     \*/
     R.svg = !(R.vml = R.type == "VML");
     R._Paper = Paper;
     /*\
@@ -391,7 +391,7 @@
      | paper.arrow(10, 10, 30, 30, 5).attr({fill: "#f00"});
      | paper.mystuff.arrow();
      | paper.mystuff.star();
-    \*/
+     \*/
     R.fn = paperproto = Paper.prototype = R.prototype;
     R._id = 0;
     R._oid = 0;
@@ -404,7 +404,7 @@
      - o (…) any object or primitive
      - type (string) name of the type, i.e. “string”, “function”, “number”, etc.
      = (boolean) is given value is of given type
-    \*/
+     \*/
     R.is = function (o, type) {
         type = lowerCase.call(type);
         if (type == "finite") {
@@ -414,10 +414,10 @@
             return o instanceof Array;
         }
         return  (type == "null" && o === null) ||
-                (type == typeof o && o !== null) ||
-                (type == "object" && o === Object(o)) ||
-                (type == "array" && Array.isArray && Array.isArray(o)) ||
-                objectToString.call(o).slice(8, -1).toLowerCase() == type;
+            (type == typeof o && o !== null) ||
+            (type == "object" && o === Object(o)) ||
+            (type == "array" && Array.isArray && Array.isArray(o)) ||
+            objectToString.call(o).slice(8, -1).toLowerCase() == type;
     };
 
     function clone(obj) {
@@ -444,7 +444,7 @@
      - x3 (number) #optional x coord of third point
      - y3 (number) #optional y coord of third point
      = (number) angle in degrees.
-    \*/
+     \*/
     R.angle = function (x1, y1, x2, y2, x3, y3) {
         if (x3 == null) {
             var x = x1 - x2,
@@ -465,7 +465,7 @@
      > Parameters
      - deg (number) angle in degrees
      = (number) angle in radians.
-    \*/
+     \*/
     R.rad = function (deg) {
         return deg % 360 * PI / 180;
     };
@@ -477,7 +477,7 @@
      > Parameters
      - deg (number) angle in radians
      = (number) angle in degrees.
-    \*/
+     \*/
     R.deg = function (rad) {
         return rad * 180 / PI % 360;
     };
@@ -491,7 +491,7 @@
      - value (number) value to adjust
      - tolerance (number) #optional tolerance for snapping. Default is `10`.
      = (number) adjusted value.
-    \*/
+     \*/
     R.snapTo = function (values, value, tolerance) {
         tolerance = R.is(tolerance, "finite") ? tolerance : 10;
         if (R.is(values, array)) {
@@ -517,7 +517,7 @@
      [ method ]
      **
      * Returns RFC4122, version 4 ID
-    \*/
+     \*/
     var createUUID = R.createUUID = (function (uuidRegEx, uuidReplacer) {
         return function () {
             return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(uuidRegEx, uuidReplacer).toUpperCase();
@@ -535,7 +535,7 @@
      * Used when you need to draw in `&lt;iframe>`. Switched window to the iframe one.
      > Parameters
      - newwin (window) new window object
-    \*/
+     \*/
     R.setWindow = function (newwin) {
         eve("raphael.setWindow", R, g.win, newwin);
         g.win = newwin;
@@ -545,84 +545,84 @@
         }
     };
     var toHex = function (color) {
-        if (R.vml) {
-            // http://dean.edwards.name/weblog/2009/10/convert-any-colour-value-to-hex-in-msie/
-            var trim = /^\s+|\s+$/g;
-            var bod;
-            try {
-                var docum = new ActiveXObject("htmlfile");
-                docum.write("<body>");
-                docum.close();
-                bod = docum.body;
-            } catch(e) {
-                bod = createPopup().document.body;
-            }
-            var range = bod.createTextRange();
-            toHex = cacher(function (color) {
+            if (R.vml) {
+                // http://dean.edwards.name/weblog/2009/10/convert-any-colour-value-to-hex-in-msie/
+                var trim = /^\s+|\s+$/g;
+                var bod;
                 try {
-                    bod.style.color = Str(color).replace(trim, E);
-                    var value = range.queryCommandValue("ForeColor");
-                    value = ((value & 255) << 16) | (value & 65280) | ((value & 16711680) >>> 16);
-                    return "#" + ("000000" + value.toString(16)).slice(-6);
+                    var docum = new ActiveXObject("htmlfile");
+                    docum.write("<body>");
+                    docum.close();
+                    bod = docum.body;
                 } catch(e) {
-                    return "none";
+                    bod = createPopup().document.body;
                 }
-            });
-        } else {
-            var i = g.doc.createElement("i");
-            i.title = "Rapha\xebl Colour Picker";
-            i.style.display = "none";
-            g.doc.body.appendChild(i);
-            toHex = cacher(function (color) {
-                i.style.color = color;
-                return g.doc.defaultView.getComputedStyle(i, E).getPropertyValue("color");
-            });
-        }
-        return toHex(color);
-    },
-    hsbtoString = function () {
-        return "hsb(" + [this.h, this.s, this.b] + ")";
-    },
-    hsltoString = function () {
-        return "hsl(" + [this.h, this.s, this.l] + ")";
-    },
-    rgbtoString = function () {
-        return this.hex;
-    },
-    prepareRGB = function (r, g, b) {
-        if (g == null && R.is(r, "object") && "r" in r && "g" in r && "b" in r) {
-            b = r.b;
-            g = r.g;
-            r = r.r;
-        }
-        if (g == null && R.is(r, string)) {
-            var clr = R.getRGB(r);
-            r = clr.r;
-            g = clr.g;
-            b = clr.b;
-        }
-        if (r > 1 || g > 1 || b > 1) {
-            r /= 255;
-            g /= 255;
-            b /= 255;
-        }
+                var range = bod.createTextRange();
+                toHex = cacher(function (color) {
+                    try {
+                        bod.style.color = Str(color).replace(trim, E);
+                        var value = range.queryCommandValue("ForeColor");
+                        value = ((value & 255) << 16) | (value & 65280) | ((value & 16711680) >>> 16);
+                        return "#" + ("000000" + value.toString(16)).slice(-6);
+                    } catch(e) {
+                        return "none";
+                    }
+                });
+            } else {
+                var i = g.doc.createElement("i");
+                i.title = "Rapha\xebl Colour Picker";
+                i.style.display = "none";
+                g.doc.body.appendChild(i);
+                toHex = cacher(function (color) {
+                    i.style.color = color;
+                    return g.doc.defaultView.getComputedStyle(i, E).getPropertyValue("color");
+                });
+            }
+            return toHex(color);
+        },
+        hsbtoString = function () {
+            return "hsb(" + [this.h, this.s, this.b] + ")";
+        },
+        hsltoString = function () {
+            return "hsl(" + [this.h, this.s, this.l] + ")";
+        },
+        rgbtoString = function () {
+            return this.hex;
+        },
+        prepareRGB = function (r, g, b) {
+            if (g == null && R.is(r, "object") && "r" in r && "g" in r && "b" in r) {
+                b = r.b;
+                g = r.g;
+                r = r.r;
+            }
+            if (g == null && R.is(r, string)) {
+                var clr = R.getRGB(r);
+                r = clr.r;
+                g = clr.g;
+                b = clr.b;
+            }
+            if (r > 1 || g > 1 || b > 1) {
+                r /= 255;
+                g /= 255;
+                b /= 255;
+            }
 
-        return [r, g, b];
-    },
-    packageRGB = function (r, g, b, o) {
-        r *= 255;
-        g *= 255;
-        b *= 255;
-        var rgb = {
-            r: r,
-            g: g,
-            b: b,
-            hex: R.rgb(r, g, b),
-            toString: rgbtoString
+            return [r, g, b];
+        },
+        packageRGB = function (r, g, b, o) {
+            r *= 255;
+            g *= 255;
+            b *= 255;
+            var rgb = {
+                r: r,
+                g: g,
+                b: b,
+                hex: R.rgb(r, g, b),
+                toString: rgbtoString
+            };
+            R.is(o, "finite") && (rgb.opacity = o);
+            return rgb;
         };
-        R.is(o, "finite") && (rgb.opacity = o);
-        return rgb;
-    };
 
     /*\
      * Raphael.color
@@ -643,7 +643,7 @@
      o     v (number) value (brightness),
      o     l (number) lightness
      o }
-    \*/
+     \*/
     R.color = function (clr) {
         var rgb;
         if (R.is(clr, "object") && "h" in clr && "s" in clr && "b" in clr) {
@@ -693,7 +693,7 @@
      o     b (number) blue,
      o     hex (string) color in HTML/CSS format: #••••••
      o }
-    \*/
+     \*/
     R.hsb2rgb = function (h, s, v, o) {
         if (this.is(h, "object") && "h" in h && "s" in h && "b" in h) {
             v = h.b;
@@ -730,7 +730,7 @@
      o     b (number) blue,
      o     hex (string) color in HTML/CSS format: #••••••
      o }
-    \*/
+     \*/
     R.hsl2rgb = function (h, s, l, o) {
         if (this.is(h, "object") && "h" in h && "s" in h && "l" in h) {
             l = h.l;
@@ -770,7 +770,7 @@
      o     s (number) saturation
      o     b (number) brightness
      o }
-    \*/
+     \*/
     R.rgb2hsb = function (r, g, b) {
         b = prepareRGB(r, g, b);
         r = b[0];
@@ -781,10 +781,10 @@
         V = mmax(r, g, b);
         C = V - mmin(r, g, b);
         H = (C == 0 ? null :
-             V == r ? (g - b) / C :
-             V == g ? (b - r) / C + 2 :
-                      (r - g) / C + 4
-            );
+            V == r ? (g - b) / C :
+                V == g ? (b - r) / C + 2 :
+                (r - g) / C + 4
+        );
         H = ((H + 360) % 6) * 60 / 360;
         S = C == 0 ? 0 : C / V;
         return {h: H, s: S, b: V, toString: hsbtoString};
@@ -804,7 +804,7 @@
      o     s (number) saturation
      o     l (number) luminosity
      o }
-    \*/
+     \*/
     R.rgb2hsl = function (r, g, b) {
         b = prepareRGB(r, g, b);
         r = b[0];
@@ -816,14 +816,14 @@
         m = mmin(r, g, b);
         C = M - m;
         H = (C == 0 ? null :
-             M == r ? (g - b) / C :
-             M == g ? (b - r) / C + 2 :
-                      (r - g) / C + 4);
+            M == r ? (g - b) / C :
+                M == g ? (b - r) / C + 2 :
+                (r - g) / C + 4);
         H = ((H + 360) % 6) * 60 / 360;
         L = (M + m) / 2;
         S = (C == 0 ? 0 :
-             L < .5 ? C / (2 * L) :
-                      C / (2 - 2 * L));
+            L < .5 ? C / (2 * L) :
+            C / (2 - 2 * L));
         return {h: H, s: S, l: L, toString: hsltoString};
     };
     R._path2string = function () {
@@ -897,7 +897,7 @@
      o     hex (string) color in HTML/CSS format: #••••••,
      o     error (boolean) true if string can’t be parsed
      o }
-    \*/
+     \*/
     R.getRGB = cacher(function (colour) {
         if (!colour || !!((colour = Str(colour)).indexOf("-") + 1)) {
             return {r: -1, g: -1, b: -1, hex: "none", error: 1, toString: clrToString};
@@ -979,7 +979,7 @@
      - s (number) saturation
      - b (number) value or brightness
      = (string) hex representation of the colour.
-    \*/
+     \*/
     R.hsb = cacher(function (h, s, b) {
         return R.hsb2rgb(h, s, b).hex;
     });
@@ -993,7 +993,7 @@
      - s (number) saturation
      - l (number) luminosity
      = (string) hex representation of the colour.
-    \*/
+     \*/
     R.hsl = cacher(function (h, s, l) {
         return R.hsl2rgb(h, s, l).hex;
     });
@@ -1007,7 +1007,7 @@
      - g (number) green
      - b (number) blue
      = (string) hex representation of the colour.
-    \*/
+     \*/
     R.rgb = cacher(function (r, g, b) {
         return "#" + (16777216 | b | (g << 8) | (r << 16)).toString(16).slice(1);
     });
@@ -1019,7 +1019,7 @@
      > Parameters
      - value (number) #optional brightness, default is `0.75`
      = (string) hex representation of the colour.
-    \*/
+     \*/
     R.getColor = function (value) {
         var start = this.getColor.start = this.getColor.start || {h: 0, s: 1, b: value || .75},
             rgb = this.hsb2rgb(start.h, start.s, start.b);
@@ -1036,48 +1036,185 @@
      [ method ]
      **
      * Resets spectrum position for @Raphael.getColor back to red.
-    \*/
+     \*/
     R.getColor.reset = function () {
         delete this.start;
     };
 
-    // http://schepers.cc/getting-to-the-point
-    function catmullRom2bezier(crp, z) {
-        var d = [];
-        for (var i = 0, iLen = crp.length; iLen - 2 * !z > i; i += 2) {
-            var p = [
-                        {x: +crp[i - 2], y: +crp[i - 1]},
-                        {x: +crp[i],     y: +crp[i + 1]},
-                        {x: +crp[i + 2], y: +crp[i + 3]},
-                        {x: +crp[i + 4], y: +crp[i + 5]}
-                    ];
-            if (z) {
-                if (!i) {
-                    p[0] = {x: +crp[iLen - 2], y: +crp[iLen - 1]};
-                } else if (iLen - 4 == i) {
-                    p[3] = {x: +crp[0], y: +crp[1]};
-                } else if (iLen - 2 == i) {
-                    p[2] = {x: +crp[0], y: +crp[1]};
-                    p[3] = {x: +crp[2], y: +crp[3]};
+    //@copyright
+    //https://github.com/ecomfe/zrender/blob/master/src/shape/util/smoothBezier.js
+    function smoothBezier(points, smooth, isLoop, constraint) {
+        var cps = [];
+
+        var v = [];
+        var v1 = [];
+        var v2 = [];
+        var prevPoint;
+        var nextPoint;
+
+        var hasConstraint = !!constraint;
+        var min, max;
+        if (hasConstraint) {
+            min = [Infinity, Infinity];
+            max = [-Infinity, -Infinity];
+            for (var i = 0, len = points.length; i < len; i++) {
+                vector.min(min, min, points[i]);
+                vector.max(max, max, points[i]);
+            }
+            vector.min(min, min, constraint[0]);
+            vector.max(max, max, constraint[1]);
+        }
+
+        for (var i = 0, len = points.length; i < len; i++) {
+            var point = points[i];
+
+            if (isLoop) {
+                prevPoint = points[i ? i - 1 : len - 1];
+                nextPoint = points[(i + 1) % len];
+            }
+            else {
+                if (i === 0 || i === len - 1) {
+                    cps.push(vector.clone(points[i]));
+                    continue;
                 }
-            } else {
-                if (iLen - 4 == i) {
-                    p[3] = p[2];
-                } else if (!i) {
-                    p[0] = {x: +crp[i], y: +crp[i + 1]};
+                else {
+                    prevPoint = points[i - 1];
+                    nextPoint = points[i + 1];
                 }
             }
-            d.push(["C",
-                  (-p[0].x + 6 * p[1].x + p[2].x) / 6,
-                  (-p[0].y + 6 * p[1].y + p[2].y) / 6,
-                  (p[1].x + 6 * p[2].x - p[3].x) / 6,
-                  (p[1].y + 6*p[2].y - p[3].y) / 6,
-                  p[2].x,
-                  p[2].y
+
+            vector.sub(v, nextPoint, prevPoint);
+
+            // use degree to scale the handle length
+            vector.scale(v, v, smooth);
+
+            var d0 = vector.distance(point, prevPoint);
+            var d1 = vector.distance(point, nextPoint);
+            var sum = d0 + d1;
+            if (sum !== 0) {
+                d0 /= sum;
+                d1 /= sum;
+            }
+
+            vector.scale(v1, v, -d0);
+            vector.scale(v2, v, d1);
+            var cp0 = vector.add([], point, v1);
+            var cp1 = vector.add([], point, v2);
+            if (hasConstraint) {
+                vector.max(cp0, cp0, min);
+                vector.min(cp0, cp0, max);
+                vector.max(cp1, cp1, min);
+                vector.min(cp1, cp1, max);
+            }
+            cps.push(cp0);
+            cps.push(cp1);
+        }
+
+        if (isLoop) {
+            cps.push(vector.clone(cps.shift()));
+        }
+
+        return cps;
+    }
+
+    // http://schepers.cc/getting-to-the-point
+    function catmullRom2bezier(crp, z) {
+
+        var isLoop = !!z;
+
+        var pointList = [];
+        for(var i = 0; i<crp.length; i+=2) {
+            pointList.push(vector.create(crp[i], crp[i+1]));
+        }
+
+        var controlPointList = smoothBezier(pointList, 0.4, isLoop, [[0, 0], [100, 100]]);
+
+        var len = pointList.length;
+        var d1 = [];
+
+        var cp1;
+        var cp2;
+        var p;
+        for (var i = 0; i < len - 1; i++) {
+            cp1 = controlPointList[i * 2];
+            cp2 = controlPointList[i * 2 + 1];
+            p = pointList[i + 1];
+
+            d1.push(["C",
+                cp1[0],
+                cp1[1],
+                cp2[0],
+                cp2[1],
+                p[0],
+                p[1]
+            ]);
+
+            //ctx.bezierCurveTo(
+            //    cp1[0], cp1[1], cp2[0], cp2[1], p[0], p[1]
+            //);
+        }
+
+        if(isLoop) {
+
+            cp1 = controlPointList[len];
+            cp2 = controlPointList[len+1];
+            p = pointList[0];
+
+            d1.push(["C",
+                cp1[0],
+                cp1[1],
+                cp2[0],
+                cp2[1],
+                p[0],
+                p[1]
             ]);
         }
 
-        return d;
+        return d1;
+
+        //old code
+        //var d = [];
+        //for (var i = 0, iLen = crp.length; iLen - 2 * !z > i; i += 2) {
+        //    var p = [
+        //                {x: +crp[i - 2], y: +crp[i - 1]},
+        //                {x: +crp[i],     y: +crp[i + 1]},
+        //                {x: +crp[i + 2], y: +crp[i + 3]},
+        //                {x: +crp[i + 4], y: +crp[i + 5]}
+        //            ];
+        //
+        //    if (z) {
+        //        if (!i) {
+        //            p[0] = {x: +crp[iLen - 2], y: +crp[iLen - 1]};
+        //        } else if (iLen - 4 == i) {
+        //            p[3] = {x: +crp[0], y: +crp[1]};
+        //        } else if (iLen - 2 == i) {
+        //            p[2] = {x: +crp[0], y: +crp[1]};
+        //            p[3] = {x: +crp[2], y: +crp[3]};
+        //        }
+        //    } else {
+        //        if (iLen - 4 == i) {
+        //            p[3] = p[2];
+        //        } else if (!i) {
+        //            p[0] = {x: +crp[i], y: +crp[i + 1]};
+        //        }
+        //    }
+        //
+        //    //if v1.y == v2.y
+        //    //so we need a straight line
+        //    //if(p[1].y == p[2].y) {
+        //    //    d.push(['L', p[2].x, p[2].y]);
+        //    //} else {
+        //        d.push(["C",
+        //            (-p[0].x + 6 * p[1].x + p[2].x) / 6,
+        //            (-p[0].y + 6 * p[1].y + p[2].y) / 6,
+        //            (p[1].x + 6 * p[2].x - p[3].x) / 6,
+        //            (p[1].y + 6 * p[2].y - p[3].y) / 6,
+        //            p[2].x,
+        //            p[2].y
+        //        ]);
+        //    //}
+        //}
+        //return d;
     }
     /*\
      * Raphael.parsePathString
@@ -1089,7 +1226,7 @@
      > Parameters
      - pathString (string|array) path string or array of segments (in the last case it will be returned straight away)
      = (array) array of segments.
-    \*/
+     \*/
     R.parsePathString = function (pathString) {
         if (!pathString) {
             return null;
@@ -1140,7 +1277,7 @@
      > Parameters
      - TString (string|array) transform string or array of transformations (in the last case it will be returned straight away)
      = (array) array of transformations.
-    \*/
+     \*/
     R.parseTransformString = cacher(function (TString) {
         if (!TString) {
             return null;
@@ -1220,7 +1357,7 @@
      o     }
      o     alpha: (number) angle of the curve derivative at the point
      o }
-    \*/
+     \*/
     R.findDotsAtSegment = function (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, t) {
         var t1 = 1 - t,
             t13 = pow(t1, 3),
@@ -1278,7 +1415,7 @@
      o         y: (number) y coordinate of the bottom point
      o     }
      o }
-    \*/
+     \*/
     R.bezierBBox = function (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y) {
         if (!R.is(p1x, "array")) {
             p1x = [p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y];
@@ -1305,7 +1442,7 @@
      - x (string) x coordinate of the point
      - y (string) y coordinate of the point
      = (boolean) `true` if point inside
-    \*/
+     \*/
     R.isPointInsideBBox = function (bbox, x, y) {
         return x >= bbox.x && x <= bbox.x2 && y >= bbox.y && y <= bbox.y2;
     };
@@ -1320,7 +1457,7 @@
      - bbox1 (string) first bounding box
      - bbox2 (string) second bounding box
      = (boolean) `true` if they intersect
-    \*/
+     \*/
     R.isBBoxIntersect = function (bbox1, bbox2) {
         var i = R.isPointInsideBBox;
         return i(bbox2, bbox1.x, bbox1.y)
@@ -1493,7 +1630,7 @@
      o         bez2: (array) eight coordinates representing beziér curve for the segment of path2
      o     }
      o ]
-    \*/
+     \*/
     R.pathIntersection = function (path1, path2) {
         return interPathHelper(path1, path2);
     };
@@ -1565,11 +1702,11 @@
      - x (number) x of the point
      - y (number) y of the point
      = (boolean) true, if point is inside the path
-    \*/
+     \*/
     R.isPointInsidePath = function (path, x, y) {
         var bbox = R.pathBBox(path);
         return R.isPointInsideBBox(bbox, x, y) &&
-               interPathHelper(path, [["M", x, y], ["H", bbox.x2 + 10]], 1) % 2 == 1;
+            interPathHelper(path, [["M", x, y], ["H", bbox.x2 + 10]], 1) % 2 == 1;
     };
     R._removedFactory = function (methodname) {
         return function () {
@@ -1596,55 +1733,55 @@
      o     cx: (number) x coordinate of the center of the box
      o     cy: (number) y coordinate of the center of the box
      o }
-    \*/
+     \*/
     var pathDimensions = R.pathBBox = function (path) {
-        var pth = paths(path);
-        if (pth.bbox) {
-            return clone(pth.bbox);
-        }
-        if (!path) {
-            return {x: 0, y: 0, width: 0, height: 0, x2: 0, y2: 0};
-        }
-        path = path2curve(path);
-        var x = 0,
-            y = 0,
-            X = [],
-            Y = [],
-            p;
-        for (var i = 0, ii = path.length; i < ii; i++) {
-            p = path[i];
-            if (p[0] == "M") {
-                x = p[1];
-                y = p[2];
-                X.push(x);
-                Y.push(y);
-            } else {
-                var dim = curveDim(x, y, p[1], p[2], p[3], p[4], p[5], p[6]);
-                X = X[concat](dim.min.x, dim.max.x);
-                Y = Y[concat](dim.min.y, dim.max.y);
-                x = p[5];
-                y = p[6];
+            var pth = paths(path);
+            if (pth.bbox) {
+                return clone(pth.bbox);
             }
-        }
-        var xmin = mmin[apply](0, X),
-            ymin = mmin[apply](0, Y),
-            xmax = mmax[apply](0, X),
-            ymax = mmax[apply](0, Y),
-            width = xmax - xmin,
-            height = ymax - ymin,
+            if (!path) {
+                return {x: 0, y: 0, width: 0, height: 0, x2: 0, y2: 0};
+            }
+            path = path2curve(path);
+            var x = 0,
+                y = 0,
+                X = [],
+                Y = [],
+                p;
+            for (var i = 0, ii = path.length; i < ii; i++) {
+                p = path[i];
+                if (p[0] == "M") {
+                    x = p[1];
+                    y = p[2];
+                    X.push(x);
+                    Y.push(y);
+                } else {
+                    var dim = curveDim(x, y, p[1], p[2], p[3], p[4], p[5], p[6]);
+                    X = X[concat](dim.min.x, dim.max.x);
+                    Y = Y[concat](dim.min.y, dim.max.y);
+                    x = p[5];
+                    y = p[6];
+                }
+            }
+            var xmin = mmin[apply](0, X),
+                ymin = mmin[apply](0, Y),
+                xmax = mmax[apply](0, X),
+                ymax = mmax[apply](0, Y),
+                width = xmax - xmin,
+                height = ymax - ymin,
                 bb = {
-                x: xmin,
-                y: ymin,
-                x2: xmax,
-                y2: ymax,
-                width: width,
-                height: height,
-                cx: xmin + width / 2,
-                cy: ymin + height / 2
-            };
-        pth.bbox = clone(bb);
-        return bb;
-    },
+                    x: xmin,
+                    y: ymin,
+                    x2: xmax,
+                    y2: ymax,
+                    width: width,
+                    height: height,
+                    cx: xmin + width / 2,
+                    cy: ymin + height / 2
+                };
+            pth.bbox = clone(bb);
+            return bb;
+        },
         pathClone = function (pathArray) {
             var res = clone(pathArray);
             res.toString = R._path2string;
@@ -1833,13 +1970,13 @@
             var _13 = 1 / 3,
                 _23 = 2 / 3;
             return [
-                    _13 * x1 + _23 * ax,
-                    _13 * y1 + _23 * ay,
-                    _13 * x2 + _23 * ax,
-                    _13 * y2 + _23 * ay,
-                    x2,
-                    y2
-                ];
+                _13 * x1 + _23 * ax,
+                _13 * y1 + _23 * ay,
+                _13 * x2 + _23 * ax,
+                _13 * y2 + _23 * ay,
+                x2,
+                y2
+            ];
         },
         a2c = function (x1, y1, rx, ry, angle, large_arc_flag, sweep_flag, x2, y2, recursive) {
             // for more information of where this math came from visit:
@@ -2170,18 +2307,18 @@
             el2.prev = el;
             el.next = el2;
         },
-        /*\
-         * Raphael.toMatrix
-         [ method ]
-         **
-         * Utility method
-         **
-         * Returns matrix of transformations applied to a given path
-         > Parameters
-         - path (string) path string
-         - transform (string|array) transformation string
-         = (object) @Matrix
-        \*/
+    /*\
+     * Raphael.toMatrix
+     [ method ]
+     **
+     * Utility method
+     **
+     * Returns matrix of transformations applied to a given path
+     > Parameters
+     - path (string) path string
+     - transform (string|array) transformation string
+     = (object) @Matrix
+     \*/
         toMatrix = R.toMatrix = function (path, transform) {
             var bb = pathDimensions(path),
                 el = {
@@ -2195,18 +2332,18 @@
             extractTransform(el, transform);
             return el.matrix;
         },
-        /*\
-         * Raphael.transformPath
-         [ method ]
-         **
-         * Utility method
-         **
-         * Returns path transformed by a given transformation
-         > Parameters
-         - path (string) path string
-         - transform (string|array) transformation string
-         = (string) path
-        \*/
+    /*\
+     * Raphael.transformPath
+     [ method ]
+     **
+     * Utility method
+     **
+     * Returns path transformed by a given transformation
+     > Parameters
+     - path (string) path string
+     - transform (string|array) transformation string
+     = (string) path
+     \*/
         transformPath = R.transformPath = function (path, transform) {
             return mapPath(path, toMatrix(path, transform));
         },
@@ -2291,7 +2428,7 @@
              [ property (object) ]
              **
              * Keeps @Matrix object, which represents element transformation
-            \*/
+             \*/
             el.matrix = m;
 
             _.sx = sx;
@@ -2341,7 +2478,7 @@
                 if ((tt1[0] != tt2[0]) ||
                     (tt1[0].toLowerCase() == "r" && (tt1[2] != tt2[2] || tt1[3] != tt2[3])) ||
                     (tt1[0].toLowerCase() == "s" && (tt1[3] != tt2[3] || tt1[4] != tt2[4]))
-                    ) {
+                ) {
                     return;
                 }
                 from[i] = [];
@@ -2395,7 +2532,7 @@
      > Parameters
      - pathString (string|array) path string or array of segments
      = (array) array of segments.
-    \*/
+     \*/
     R.pathToRelative = pathToRelative;
     R._engine = {};
     /*\
@@ -2408,7 +2545,7 @@
      > Parameters
      - pathString (string|array) path string or array of segments
      = (array) array of segments.
-    \*/
+     \*/
     R.path2curve = path2curve;
     /*\
      * Raphael.matrix
@@ -2425,7 +2562,7 @@
      - e (number)
      - f (number)
      = (object) @Matrix
-    \*/
+     \*/
     R.matrix = function (a, b, c, d, e, f) {
         return new Matrix(a, b, c, d, e, f);
     };
@@ -2461,7 +2598,7 @@
          - f (number)
          or
          - matrix (object) @Matrix
-        \*/
+         \*/
         matrixproto.add = function (a, b, c, d, e, f) {
             var out = [[], [], []],
                 m = [[this.a, this.c, this.e], [this.b, this.d, this.f], [0, 0, 1]],
@@ -2494,7 +2631,7 @@
          **
          * Returns inverted version of the matrix
          = (object) @Matrix
-        \*/
+         \*/
         matrixproto.invert = function () {
             var me = this,
                 x = me.a * me.d - me.b * me.c;
@@ -2506,7 +2643,7 @@
          **
          * Returns copy of the matrix
          = (object) @Matrix
-        \*/
+         \*/
         matrixproto.clone = function () {
             return new Matrix(this.a, this.b, this.c, this.d, this.e, this.f);
         };
@@ -2518,7 +2655,7 @@
          > Parameters
          - x (number)
          - y (number)
-        \*/
+         \*/
         matrixproto.translate = function (x, y) {
             this.add(1, 0, 0, 1, x, y);
         };
@@ -2532,7 +2669,7 @@
          - y (number) #optional
          - cx (number) #optional
          - cy (number) #optional
-        \*/
+         \*/
         matrixproto.scale = function (x, y, cx, cy) {
             y == null && (y = x);
             (cx || cy) && this.add(1, 0, 0, 1, cx, cy);
@@ -2548,7 +2685,7 @@
          - a (number)
          - x (number)
          - y (number)
-        \*/
+         \*/
         matrixproto.rotate = function (a, x, y) {
             a = R.rad(a);
             x = x || 0;
@@ -2567,7 +2704,7 @@
          - x (number)
          - y (number)
          = (number) x
-        \*/
+         \*/
         matrixproto.x = function (x, y) {
             return x * this.a + y * this.c + this.e;
         };
@@ -2580,7 +2717,7 @@
          - x (number)
          - y (number)
          = (number) y
-        \*/
+         \*/
         matrixproto.y = function (x, y) {
             return x * this.b + y * this.d + this.f;
         };
@@ -2589,7 +2726,7 @@
         };
         matrixproto.toString = function () {
             return R.svg ?
-                "matrix(" + [this.get(0), this.get(1), this.get(2), this.get(3), this.get(4), this.get(5)].join() + ")" :
+            "matrix(" + [this.get(0), this.get(1), this.get(2), this.get(3), this.get(4), this.get(5)].join() + ")" :
                 [this.get(0), this.get(2), this.get(1), this.get(3), 0, 0].join();
         };
         matrixproto.toFilter = function () {
@@ -2621,7 +2758,7 @@
          o shear (number) shear
          o rotate (number) rotation in deg
          o isSimple (boolean) could it be represented via simple transformations
-        \*/
+         \*/
         matrixproto.split = function () {
             var out = {};
             // translation
@@ -2663,7 +2800,7 @@
          **
          * Return transform string that represents given matrix
          = (string) transform string
-        \*/
+         \*/
         matrixproto.toTransformString = function (shorter) {
             var s = shorter || this[split]();
             if (s.isSimple) {
@@ -2671,8 +2808,8 @@
                 s.scaley = +s.scaley.toFixed(4);
                 s.rotate = +s.rotate.toFixed(4);
                 return  (s.dx || s.dy ? "t" + [s.dx, s.dy] : E) +
-                        (s.scalex != 1 || s.scaley != 1 ? "s" + [s.scalex, s.scaley, 0, 0] : E) +
-                        (s.rotate ? "r" + [s.rotate, 0, 0] : E);
+                    (s.scalex != 1 || s.scaley != 1 ? "s" + [s.scalex, s.scaley, 0, 0] : E) +
+                    (s.rotate ? "r" + [s.rotate, 0, 0] : E);
             } else {
                 return "m" + [this.get(0), this.get(1), this.get(2), this.get(3), this.get(4), this.get(5)];
             }
@@ -2690,7 +2827,7 @@
          * There is an inconvenient rendering bug in Safari (WebKit):
          * sometimes the rendering should be forced.
          * This method should help with dealing with this bug.
-        \*/
+         \*/
         paperproto.safari = function () {
             var rect = this.rect(-99, -99, this.width + 99, this.height + 99).attr({stroke: "none"});
             setTimeout(function () {rect.remove();});
@@ -2700,137 +2837,137 @@
     }
 
     var preventDefault = function () {
-        this.returnValue = false;
-    },
-    preventTouch = function () {
-        return this.originalEvent.preventDefault();
-    },
-    stopPropagation = function () {
-        this.cancelBubble = true;
-    },
-    stopTouch = function () {
-        return this.originalEvent.stopPropagation();
-    },
-    getEventPosition = function (e) {
-        var scrollY = g.doc.documentElement.scrollTop || g.doc.body.scrollTop,
-            scrollX = g.doc.documentElement.scrollLeft || g.doc.body.scrollLeft;
+            this.returnValue = false;
+        },
+        preventTouch = function () {
+            return this.originalEvent.preventDefault();
+        },
+        stopPropagation = function () {
+            this.cancelBubble = true;
+        },
+        stopTouch = function () {
+            return this.originalEvent.stopPropagation();
+        },
+        getEventPosition = function (e) {
+            var scrollY = g.doc.documentElement.scrollTop || g.doc.body.scrollTop,
+                scrollX = g.doc.documentElement.scrollLeft || g.doc.body.scrollLeft;
 
-        return {
-            x: e.clientX + scrollX,
-            y: e.clientY + scrollY
-        };
-    },
-    addEvent = (function () {
-        if (g.doc.addEventListener) {
-            return function (obj, type, fn, element) {
-                var f = function (e) {
-                    var pos = getEventPosition(e);
-                    return fn.call(element, e, pos.x, pos.y);
-                };
-                obj.addEventListener(type, f, false);
-
-                if (supportsTouch && touchMap[type]) {
-                    var _f = function (e) {
-                        var pos = getEventPosition(e),
-                            olde = e;
-
-                        for (var i = 0, ii = e.targetTouches && e.targetTouches.length; i < ii; i++) {
-                            if (e.targetTouches[i].target == obj) {
-                                e = e.targetTouches[i];
-                                e.originalEvent = olde;
-                                e.preventDefault = preventTouch;
-                                e.stopPropagation = stopTouch;
-                                break;
-                            }
-                        }
-
+            return {
+                x: e.clientX + scrollX,
+                y: e.clientY + scrollY
+            };
+        },
+        addEvent = (function () {
+            if (g.doc.addEventListener) {
+                return function (obj, type, fn, element) {
+                    var f = function (e) {
+                        var pos = getEventPosition(e);
                         return fn.call(element, e, pos.x, pos.y);
                     };
-                    obj.addEventListener(touchMap[type], _f, false);
-                }
+                    obj.addEventListener(type, f, false);
 
-                return function () {
-                    obj.removeEventListener(type, f, false);
+                    if (supportsTouch && touchMap[type]) {
+                        var _f = function (e) {
+                            var pos = getEventPosition(e),
+                                olde = e;
 
-                    if (supportsTouch && touchMap[type])
-                        obj.removeEventListener(touchMap[type], f, false);
+                            for (var i = 0, ii = e.targetTouches && e.targetTouches.length; i < ii; i++) {
+                                if (e.targetTouches[i].target == obj) {
+                                    e = e.targetTouches[i];
+                                    e.originalEvent = olde;
+                                    e.preventDefault = preventTouch;
+                                    e.stopPropagation = stopTouch;
+                                    break;
+                                }
+                            }
 
-                    return true;
-                };
-            };
-        } else if (g.doc.attachEvent) {
-            return function (obj, type, fn, element) {
-                var f = function (e) {
-                    e = e || g.win.event;
-                    var scrollY = g.doc.documentElement.scrollTop || g.doc.body.scrollTop,
-                        scrollX = g.doc.documentElement.scrollLeft || g.doc.body.scrollLeft,
-                        x = e.clientX + scrollX,
-                        y = e.clientY + scrollY;
-                    e.preventDefault = e.preventDefault || preventDefault;
-                    e.stopPropagation = e.stopPropagation || stopPropagation;
-                    return fn.call(element, e, x, y);
-                };
-                obj.attachEvent("on" + type, f);
-                var detacher = function () {
-                    obj.detachEvent("on" + type, f);
-                    return true;
-                };
-                return detacher;
-            };
-        }
-    })(),
-    drag = [],
-    dragMove = function (e) {
-        var x = e.clientX,
-            y = e.clientY,
-            scrollY = g.doc.documentElement.scrollTop || g.doc.body.scrollTop,
-            scrollX = g.doc.documentElement.scrollLeft || g.doc.body.scrollLeft,
-            dragi,
-            j = drag.length;
-        while (j--) {
-            dragi = drag[j];
-            if (supportsTouch && e.touches) {
-                var i = e.touches.length,
-                    touch;
-                while (i--) {
-                    touch = e.touches[i];
-                    if (touch.identifier == dragi.el._drag.id) {
-                        x = touch.clientX;
-                        y = touch.clientY;
-                        (e.originalEvent ? e.originalEvent : e).preventDefault();
-                        break;
+                            return fn.call(element, e, pos.x, pos.y);
+                        };
+                        obj.addEventListener(touchMap[type], _f, false);
                     }
-                }
-            } else {
-                e.preventDefault();
+
+                    return function () {
+                        obj.removeEventListener(type, f, false);
+
+                        if (supportsTouch && touchMap[type])
+                            obj.removeEventListener(touchMap[type], f, false);
+
+                        return true;
+                    };
+                };
+            } else if (g.doc.attachEvent) {
+                return function (obj, type, fn, element) {
+                    var f = function (e) {
+                        e = e || g.win.event;
+                        var scrollY = g.doc.documentElement.scrollTop || g.doc.body.scrollTop,
+                            scrollX = g.doc.documentElement.scrollLeft || g.doc.body.scrollLeft,
+                            x = e.clientX + scrollX,
+                            y = e.clientY + scrollY;
+                        e.preventDefault = e.preventDefault || preventDefault;
+                        e.stopPropagation = e.stopPropagation || stopPropagation;
+                        return fn.call(element, e, x, y);
+                    };
+                    obj.attachEvent("on" + type, f);
+                    var detacher = function () {
+                        obj.detachEvent("on" + type, f);
+                        return true;
+                    };
+                    return detacher;
+                };
             }
-            var node = dragi.el.node,
-                o,
-                next = node.nextSibling,
-                parent = node.parentNode,
-                display = node.style.display;
-            g.win.opera && parent.removeChild(node);
-            node.style.display = "none";
-            o = dragi.el.paper.getElementByPoint(x, y);
-            node.style.display = display;
-            g.win.opera && (next ? parent.insertBefore(node, next) : parent.appendChild(node));
-            o && eve("raphael.drag.over." + dragi.el.id, dragi.el, o);
-            x += scrollX;
-            y += scrollY;
-            eve("raphael.drag.move." + dragi.el.id, dragi.move_scope || dragi.el, x - dragi.el._drag.x, y - dragi.el._drag.y, x, y, e);
-        }
-    },
-    dragUp = function (e) {
-        R.unmousemove(dragMove).unmouseup(dragUp);
-        var i = drag.length,
-            dragi;
-        while (i--) {
-            dragi = drag[i];
-            dragi.el._drag = {};
-            eve("raphael.drag.end." + dragi.el.id, dragi.end_scope || dragi.start_scope || dragi.move_scope || dragi.el, e);
-        }
-        drag = [];
-    },
+        })(),
+        drag = [],
+        dragMove = function (e) {
+            var x = e.clientX,
+                y = e.clientY,
+                scrollY = g.doc.documentElement.scrollTop || g.doc.body.scrollTop,
+                scrollX = g.doc.documentElement.scrollLeft || g.doc.body.scrollLeft,
+                dragi,
+                j = drag.length;
+            while (j--) {
+                dragi = drag[j];
+                if (supportsTouch && e.touches) {
+                    var i = e.touches.length,
+                        touch;
+                    while (i--) {
+                        touch = e.touches[i];
+                        if (touch.identifier == dragi.el._drag.id) {
+                            x = touch.clientX;
+                            y = touch.clientY;
+                            (e.originalEvent ? e.originalEvent : e).preventDefault();
+                            break;
+                        }
+                    }
+                } else {
+                    e.preventDefault();
+                }
+                var node = dragi.el.node,
+                    o,
+                    next = node.nextSibling,
+                    parent = node.parentNode,
+                    display = node.style.display;
+                g.win.opera && parent.removeChild(node);
+                node.style.display = "none";
+                o = dragi.el.paper.getElementByPoint(x, y);
+                node.style.display = display;
+                g.win.opera && (next ? parent.insertBefore(node, next) : parent.appendChild(node));
+                o && eve("raphael.drag.over." + dragi.el.id, dragi.el, o);
+                x += scrollX;
+                y += scrollY;
+                eve("raphael.drag.move." + dragi.el.id, dragi.move_scope || dragi.el, x - dragi.el._drag.x, y - dragi.el._drag.y, x, y, e);
+            }
+        },
+        dragUp = function (e) {
+            R.unmousemove(dragMove).unmouseup(dragUp);
+            var i = drag.length,
+                dragi;
+            while (i--) {
+                dragi = drag[i];
+                dragi.el._drag = {};
+                eve("raphael.drag.end." + dragi.el.id, dragi.end_scope || dragi.start_scope || dragi.move_scope || dragi.el, e);
+            }
+            drag = [];
+        },
     /*\
      * Raphael.el
      [ property (object) ]
@@ -2844,8 +2981,8 @@
      | };
      | // then use it
      | paper.circle(100, 100, 20).red();
-    \*/
-    elproto = R.el = {};
+     \*/
+        elproto = R.el = {};
     /*\
      * Element.click
      [ method ]
@@ -2854,7 +2991,7 @@
      > Parameters
      - handler (function) handler for the event
      = (object) @Element
-    \*/
+     \*/
     /*\
      * Element.unclick
      [ method ]
@@ -2863,7 +3000,7 @@
      > Parameters
      - handler (function) #optional handler for the event
      = (object) @Element
-    \*/
+     \*/
 
     /*\
      * Element.dblclick
@@ -2873,7 +3010,7 @@
      > Parameters
      - handler (function) handler for the event
      = (object) @Element
-    \*/
+     \*/
     /*\
      * Element.undblclick
      [ method ]
@@ -2882,7 +3019,7 @@
      > Parameters
      - handler (function) #optional handler for the event
      = (object) @Element
-    \*/
+     \*/
 
     /*\
      * Element.mousedown
@@ -2892,7 +3029,7 @@
      > Parameters
      - handler (function) handler for the event
      = (object) @Element
-    \*/
+     \*/
     /*\
      * Element.unmousedown
      [ method ]
@@ -2901,7 +3038,7 @@
      > Parameters
      - handler (function) #optional handler for the event
      = (object) @Element
-    \*/
+     \*/
 
     /*\
      * Element.mousemove
@@ -2911,7 +3048,7 @@
      > Parameters
      - handler (function) handler for the event
      = (object) @Element
-    \*/
+     \*/
     /*\
      * Element.unmousemove
      [ method ]
@@ -2920,7 +3057,7 @@
      > Parameters
      - handler (function) #optional handler for the event
      = (object) @Element
-    \*/
+     \*/
 
     /*\
      * Element.mouseout
@@ -2930,7 +3067,7 @@
      > Parameters
      - handler (function) handler for the event
      = (object) @Element
-    \*/
+     \*/
     /*\
      * Element.unmouseout
      [ method ]
@@ -2939,7 +3076,7 @@
      > Parameters
      - handler (function) #optional handler for the event
      = (object) @Element
-    \*/
+     \*/
 
     /*\
      * Element.mouseover
@@ -2949,7 +3086,7 @@
      > Parameters
      - handler (function) handler for the event
      = (object) @Element
-    \*/
+     \*/
     /*\
      * Element.unmouseover
      [ method ]
@@ -2958,7 +3095,7 @@
      > Parameters
      - handler (function) #optional handler for the event
      = (object) @Element
-    \*/
+     \*/
 
     /*\
      * Element.mouseup
@@ -2968,7 +3105,7 @@
      > Parameters
      - handler (function) handler for the event
      = (object) @Element
-    \*/
+     \*/
     /*\
      * Element.unmouseup
      [ method ]
@@ -2977,7 +3114,7 @@
      > Parameters
      - handler (function) #optional handler for the event
      = (object) @Element
-    \*/
+     \*/
 
     /*\
      * Element.touchstart
@@ -2987,7 +3124,7 @@
      > Parameters
      - handler (function) handler for the event
      = (object) @Element
-    \*/
+     \*/
     /*\
      * Element.untouchstart
      [ method ]
@@ -2996,7 +3133,7 @@
      > Parameters
      - handler (function) #optional handler for the event
      = (object) @Element
-    \*/
+     \*/
 
     /*\
      * Element.touchmove
@@ -3006,7 +3143,7 @@
      > Parameters
      - handler (function) handler for the event
      = (object) @Element
-    \*/
+     \*/
     /*\
      * Element.untouchmove
      [ method ]
@@ -3015,7 +3152,7 @@
      > Parameters
      - handler (function) #optional handler for the event
      = (object) @Element
-    \*/
+     \*/
 
     /*\
      * Element.touchend
@@ -3025,7 +3162,7 @@
      > Parameters
      - handler (function) handler for the event
      = (object) @Element
-    \*/
+     \*/
     /*\
      * Element.untouchend
      [ method ]
@@ -3034,7 +3171,7 @@
      > Parameters
      - handler (function) #optional handler for the event
      = (object) @Element
-    \*/
+     \*/
 
     /*\
      * Element.touchcancel
@@ -3044,7 +3181,7 @@
      > Parameters
      - handler (function) handler for the event
      = (object) @Element
-    \*/
+     \*/
     /*\
      * Element.untouchcancel
      [ method ]
@@ -3053,7 +3190,7 @@
      > Parameters
      - handler (function) #optional handler for the event
      = (object) @Element
-    \*/
+     \*/
     for (var i = events.length; i--;) {
         (function (eventName) {
             R[eventName] = elproto[eventName] = function (fn, scope) {
@@ -3102,7 +3239,7 @@
      |             alert(this.data("i"));
      |          });
      | }
-    \*/
+     \*/
     elproto.data = function (key, value) {
         var data = eldata[this.id] = eldata[this.id] || {};
         if (arguments.length == 0) {
@@ -3131,7 +3268,7 @@
      > Parameters
      - key (string) #optional key
      = (object) @Element
-    \*/
+     \*/
     elproto.removeData = function (key) {
         if (key == null) {
             eldata[this.id] = {};
@@ -3140,13 +3277,13 @@
         }
         return this;
     };
-     /*\
+    /*\
      * Element.getData
      [ method ]
      **
      * Retrieves the element data
      = (object) data
-    \*/
+     \*/
     elproto.getData = function () {
         return clone(eldata[this.id] || {});
     };
@@ -3161,7 +3298,7 @@
      - icontext (object) #optional context for hover in handler
      - ocontext (object) #optional context for hover out handler
      = (object) @Element
-    \*/
+     \*/
     elproto.hover = function (f_in, f_out, scope_in, scope_out) {
         return this.mouseover(f_in, scope_in).mouseout(f_out, scope_out || scope_in);
     };
@@ -3174,7 +3311,7 @@
      - f_in (function) handler for hover in
      - f_out (function) handler for hover out
      = (object) @Element
-    \*/
+     \*/
     elproto.unhover = function (f_in, f_out) {
         return this.unmouseover(f_in).unmouseout(f_out);
     };
@@ -3208,7 +3345,7 @@
      * End event and end handler will be called in specified context or in context of the element with following parameters:
      o event (object) DOM event object
      = (object) @Element
-    \*/
+     \*/
     elproto.drag = function (onmove, onstart, onend, move_scope, start_scope, end_scope) {
         function start(e) {
             (e.originalEvent || e).preventDefault();
@@ -3250,7 +3387,7 @@
      * Shortcut for assigning event handler for `drag.over.<id>` event, where id is id of the element (see @Element.id).
      > Parameters
      - f (function) handler for event, first argument would be the element you are dragging over
-    \*/
+     \*/
     elproto.onDragOver = function (f) {
         f ? eve.on("raphael.drag.over." + this.id, f) : eve.unbind("raphael.drag.over." + this.id);
     };
@@ -3259,7 +3396,7 @@
      [ method ]
      **
      * Removes all drag event handlers from given element.
-    \*/
+     \*/
     elproto.undrag = function () {
         var i = draggable.length;
         while (i--) if (draggable[i].el == this) {
@@ -3285,7 +3422,7 @@
      **
      > Usage
      | var c = paper.circle(50, 50, 40);
-    \*/
+     \*/
     paperproto.circle = function (x, y, r) {
         var out = R._engine.circle(this, x || 0, y || 0, r || 0);
         this.__set__ && this.__set__.push(out);
@@ -3311,7 +3448,7 @@
      | var c = paper.rect(10, 10, 50, 50);
      | // rectangle with rounded corners
      | var c = paper.rect(40, 40, 50, 50, 10);
-    \*/
+     \*/
     paperproto.rect = function (x, y, w, h, r) {
         var out = R._engine.rect(this, x || 0, y || 0, w || 0, h || 0, r || 0);
         this.__set__ && this.__set__.push(out);
@@ -3333,7 +3470,7 @@
      **
      > Usage
      | var c = paper.ellipse(50, 50, 40, 20);
-    \*/
+     \*/
     paperproto.ellipse = function (x, y, rx, ry) {
         var out = R._engine.ellipse(this, x || 0, y || 0, rx || 0, ry || 0);
         this.__set__ && this.__set__.push(out);
@@ -3370,7 +3507,7 @@
      | // draw a diagonal line:
      | // move to 10,10, line to 90,90
      * For example of path strings, check out these icons: http://raphaeljs.com/icons/
-    \*/
+     \*/
     paperproto.path = function (pathString) {
         pathString && !R.is(pathString, string) && !R.is(pathString[0], array) && (pathString += E);
         var out = R._engine.path(R.format[apply](R, arguments), this);
@@ -3394,7 +3531,7 @@
      **
      > Usage
      | var c = paper.image("apple.png", 10, 10, 80, 80);
-    \*/
+     \*/
     paperproto.image = function (src, x, y, w, h) {
         var out = R._engine.image(this, src || "about:blank", x || 0, y || 0, w || 0, h || 0);
         this.__set__ && this.__set__.push(out);
@@ -3415,7 +3552,7 @@
      **
      > Usage
      | var t = paper.text(50, 50, "Raphaël\nkicks\nbutt!");
-    \*/
+     \*/
     paperproto.text = function (x, y, text) {
         var out = R._engine.text(this, x || 0, y || 0, Str(text));
         this.__set__ && this.__set__.push(out);
@@ -3437,7 +3574,7 @@
      |     paper.circle(30, 10, 5)
      | );
      | st.attr({fill: "red"}); // changes the fill of both circles
-    \*/
+     \*/
     paperproto.set = function (itemsArray) {
         !R.is(itemsArray, "array") && (itemsArray = Array.prototype.splice.call(arguments, 0, arguments.length));
         var out = new Set(itemsArray);
@@ -3459,7 +3596,7 @@
      | paper.circle(30, 10, 5)
      | var st = paper.setFinish();
      | st.attr({fill: "red"}); // changes the fill of both circles
-    \*/
+     \*/
     paperproto.setStart = function (set) {
         this.__set__ = set || this.set();
     };
@@ -3470,7 +3607,7 @@
      * See @Paper.setStart. This method finishes catching and returns resulting set.
      **
      = (object) set
-    \*/
+     \*/
     paperproto.setFinish = function (set) {
         var out = this.__set__;
         delete this.__set__;
@@ -3486,7 +3623,7 @@
      **
      - width (number) new width of the canvas
      - height (number) new height of the canvas
-    \*/
+     \*/
     paperproto.setSize = function (width, height) {
         return R._engine.setSize.call(this, width, height);
     };
@@ -3504,7 +3641,7 @@
      - w (number) new width of the canvas
      - h (number) new height of the canvas
      - fit (boolean) `true` if you want graphics to fit into new boundary box
-    \*/
+     \*/
     paperproto.setViewBox = function (x, y, w, h, fit) {
         return R._engine.setViewBox.call(this, x, y, w, h, fit);
     };
@@ -3513,20 +3650,20 @@
      [ property ]
      **
      * Points to the topmost element on the paper
-    \*/
+     \*/
     /*\
      * Paper.bottom
      [ property ]
      **
      * Points to the bottom element on the paper
-    \*/
+     \*/
     paperproto.top = paperproto.bottom = null;
     /*\
      * Paper.raphael
      [ property ]
      **
      * Points to the @Raphael object/function
-    \*/
+     \*/
     paperproto.raphael = R;
     var getOffset = function (elem) {
         var box = elem.getBoundingClientRect(),
@@ -3554,7 +3691,7 @@
      - y (number) y coordinate from the top left corner of the window
      > Usage
      | paper.getElementByPoint(mouseX, mouseY).attr({stroke: "#f00"});
-    \*/
+     \*/
     paperproto.getElementByPoint = function (x, y) {
         var paper = this,
             svg = paper.canvas,
@@ -3612,7 +3749,7 @@
      **
      - id (number) id
      = (object) Raphaël element object
-    \*/
+     \*/
     paperproto.getById = function (id) {
         var bot = this.bottom;
         while (bot) {
@@ -3640,7 +3777,7 @@
      | paper.forEach(function (el) {
      |     el.attr({ stroke: "blue" });
      | });
-    \*/
+     \*/
     paperproto.forEach = function (callback, thisArg) {
         var bot = this.bottom;
         while (bot) {
@@ -3662,7 +3799,7 @@
      - x (number) x coordinate of the point
      - y (number) y coordinate of the point
      = (object) @Set
-    \*/
+     \*/
     paperproto.getElementsByPoint = function (x, y) {
         var set = this.set();
         this.forEach(function (el) {
@@ -3689,7 +3826,7 @@
      - x (number) x coordinate of the point
      - y (number) y coordinate of the point
      = (boolean) `true` if point inside the shape
-    \*/
+     \*/
     elproto.isPointInside = function (x, y) {
         var rp = this.realPath = getPath[this.type](this);
         if (this.attr('transform') && this.attr('transform').length) {
@@ -3715,7 +3852,7 @@
      o     width: (number) width
      o     height: (number) height
      o }
-    \*/
+     \*/
     elproto.getBBox = function (isWithoutTransform) {
         if (this.removed) {
             return {};
@@ -3747,7 +3884,7 @@
      **
      = (object) clone of a given element
      **
-    \*/
+     \*/
     elproto.clone = function () {
         if (this.removed) {
             return null;
@@ -3776,20 +3913,20 @@
      o     color (string) glow colour, default is `black`
      o }
      = (object) @Paper.set of elements that represents glow
-    \*/
+     \*/
     elproto.glow = function (glow) {
         if (this.type == "text") {
             return null;
         }
         glow = glow || {};
         var s = {
-            width: (glow.width || 10) + (+this.attr("stroke-width") || 1),
-            fill: glow.fill || false,
-            opacity: glow.opacity || .5,
-            offsetx: glow.offsetx || 0,
-            offsety: glow.offsety || 0,
-            color: glow.color || "#000"
-        },
+                width: (glow.width || 10) + (+this.attr("stroke-width") || 1),
+                fill: glow.fill || false,
+                opacity: glow.opacity || .5,
+                offsetx: glow.offsetx || 0,
+                offsety: glow.offsety || 0,
+                color: glow.color || "#000"
+            },
             c = s.width / 2,
             r = this.paper,
             out = r.set(),
@@ -3808,54 +3945,54 @@
         return out.insertBefore(this).translate(s.offsetx, s.offsety);
     };
     var curveslengths = {},
-    getPointAtSegmentLength = function (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, length) {
-        if (length == null) {
-            return bezlen(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y);
-        } else {
-            return R.findDotsAtSegment(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, getTatLen(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, length));
-        }
-    },
-    getLengthFactory = function (istotal, subpath) {
-        return function (path, length, onlystart) {
-            path = path2curve(path);
-            var x, y, p, l, sp = "", subpaths = {}, point,
-                len = 0;
-            for (var i = 0, ii = path.length; i < ii; i++) {
-                p = path[i];
-                if (p[0] == "M") {
-                    x = +p[1];
-                    y = +p[2];
-                } else {
-                    l = getPointAtSegmentLength(x, y, p[1], p[2], p[3], p[4], p[5], p[6]);
-                    if (len + l > length) {
-                        if (subpath && !subpaths.start) {
-                            point = getPointAtSegmentLength(x, y, p[1], p[2], p[3], p[4], p[5], p[6], length - len);
-                            sp += ["C" + point.start.x, point.start.y, point.m.x, point.m.y, point.x, point.y];
-                            if (onlystart) {return sp;}
-                            subpaths.start = sp;
-                            sp = ["M" + point.x, point.y + "C" + point.n.x, point.n.y, point.end.x, point.end.y, p[5], p[6]].join();
-                            len += l;
-                            x = +p[5];
-                            y = +p[6];
-                            continue;
-                        }
-                        if (!istotal && !subpath) {
-                            point = getPointAtSegmentLength(x, y, p[1], p[2], p[3], p[4], p[5], p[6], length - len);
-                            return {x: point.x, y: point.y, alpha: point.alpha};
-                        }
-                    }
-                    len += l;
-                    x = +p[5];
-                    y = +p[6];
-                }
-                sp += p.shift() + p;
+        getPointAtSegmentLength = function (p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, length) {
+            if (length == null) {
+                return bezlen(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y);
+            } else {
+                return R.findDotsAtSegment(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, getTatLen(p1x, p1y, c1x, c1y, c2x, c2y, p2x, p2y, length));
             }
-            subpaths.end = sp;
-            point = istotal ? len : subpath ? subpaths : R.findDotsAtSegment(x, y, p[0], p[1], p[2], p[3], p[4], p[5], 1);
-            point.alpha && (point = {x: point.x, y: point.y, alpha: point.alpha});
-            return point;
+        },
+        getLengthFactory = function (istotal, subpath) {
+            return function (path, length, onlystart) {
+                path = path2curve(path);
+                var x, y, p, l, sp = "", subpaths = {}, point,
+                    len = 0;
+                for (var i = 0, ii = path.length; i < ii; i++) {
+                    p = path[i];
+                    if (p[0] == "M") {
+                        x = +p[1];
+                        y = +p[2];
+                    } else {
+                        l = getPointAtSegmentLength(x, y, p[1], p[2], p[3], p[4], p[5], p[6]);
+                        if (len + l > length) {
+                            if (subpath && !subpaths.start) {
+                                point = getPointAtSegmentLength(x, y, p[1], p[2], p[3], p[4], p[5], p[6], length - len);
+                                sp += ["C" + point.start.x, point.start.y, point.m.x, point.m.y, point.x, point.y];
+                                if (onlystart) {return sp;}
+                                subpaths.start = sp;
+                                sp = ["M" + point.x, point.y + "C" + point.n.x, point.n.y, point.end.x, point.end.y, p[5], p[6]].join();
+                                len += l;
+                                x = +p[5];
+                                y = +p[6];
+                                continue;
+                            }
+                            if (!istotal && !subpath) {
+                                point = getPointAtSegmentLength(x, y, p[1], p[2], p[3], p[4], p[5], p[6], length - len);
+                                return {x: point.x, y: point.y, alpha: point.alpha};
+                            }
+                        }
+                        len += l;
+                        x = +p[5];
+                        y = +p[6];
+                    }
+                    sp += p.shift() + p;
+                }
+                subpaths.end = sp;
+                point = istotal ? len : subpath ? subpaths : R.findDotsAtSegment(x, y, p[0], p[1], p[2], p[3], p[4], p[5], 1);
+                point.alpha && (point = {x: point.x, y: point.y, alpha: point.alpha});
+                return point;
+            };
         };
-    };
     var getTotalLength = getLengthFactory(1),
         getPointAtLength = getLengthFactory(),
         getSubpathsAtLength = getLengthFactory(0, 1);
@@ -3870,7 +4007,7 @@
      - path (string) SVG path string.
      **
      = (number) length.
-    \*/
+     \*/
     R.getTotalLength = getTotalLength;
     /*\
      * Raphael.getPointAtLength
@@ -3889,7 +4026,7 @@
      o     y: (number) y coordinate
      o     alpha: (number) angle of derivative
      o }
-    \*/
+     \*/
     R.getPointAtLength = getPointAtLength;
     /*\
      * Raphael.getSubpath
@@ -3904,7 +4041,7 @@
      - to (number) position of the end of the segment
      **
      = (string) pathstring for the segment
-    \*/
+     \*/
     R.getSubpath = function (path, from, to) {
         if (this.getTotalLength(path) - to < 1e-6) {
             return getSubpathsAtLength(path, from).end;
@@ -3918,7 +4055,7 @@
      **
      * Returns length of the path in pixels. Only works for element of “path” type.
      = (number) length.
-    \*/
+     \*/
     elproto.getTotalLength = function () {
         var path = this.getPath();
         if (!path) {
@@ -3947,7 +4084,7 @@
      o     y: (number) y coordinate
      o     alpha: (number) angle of derivative
      o }
-    \*/
+     \*/
     elproto.getPointAtLength = function (length) {
         var path = this.getPath();
         if (!path) {
@@ -3963,11 +4100,11 @@
      * Returns path of the element. Only works for elements of “path” type and simple elements like circle.
      = (object) path
      **
-    \*/
+     \*/
     elproto.getPath = function () {
         var path,
             getPath = R._getPath[this.type];
-        
+
         if (this.type == "text" || this.type == "set") {
             return;
         }
@@ -3990,7 +4127,7 @@
      - to (number) position of the end of the segment
      **
      = (string) pathstring for the segment
-    \*/
+     \*/
     elproto.getSubpath = function (from, to) {
         var path = this.getPath();
         if (!path) {
@@ -4015,7 +4152,7 @@
      #     <li>“bounce”</li>
      # </ul>
      # <p>See also <a href="http://raphaeljs.com/easing.html">Easing demo</a>.</p>
-    \*/
+     \*/
     var ef = R.easing_formulas = {
         linear: function (n) {
             return n;
@@ -4082,13 +4219,13 @@
 
     var animationElements = [],
         requestAnimFrame = window.requestAnimationFrame       ||
-                           window.webkitRequestAnimationFrame ||
-                           window.mozRequestAnimationFrame    ||
-                           window.oRequestAnimationFrame      ||
-                           window.msRequestAnimationFrame     ||
-                           function (callback) {
-                               setTimeout(callback, 16);
-                           },
+            window.webkitRequestAnimationFrame ||
+            window.mozRequestAnimationFrame    ||
+            window.oRequestAnimationFrame      ||
+            window.msRequestAnimationFrame     ||
+            function (callback) {
+                setTimeout(callback, 16);
+            },
         animation = function () {
             var Now = +new Date,
                 l = 0;
@@ -4129,10 +4266,10 @@
                                 break;
                             case "colour":
                                 now = "rgb(" + [
-                                    upto255(round(from[attr].r + pos * ms * diff[attr].r)),
-                                    upto255(round(from[attr].g + pos * ms * diff[attr].g)),
-                                    upto255(round(from[attr].b + pos * ms * diff[attr].b))
-                                ].join(",") + ")";
+                                        upto255(round(from[attr].r + pos * ms * diff[attr].r)),
+                                        upto255(round(from[attr].g + pos * ms * diff[attr].g)),
+                                        upto255(round(from[attr].b + pos * ms * diff[attr].b))
+                                    ].join(",") + ")";
                                 break;
                             case "path":
                                 now = [];
@@ -4249,7 +4386,7 @@
      - animation (object) #optional animation object, see @Raphael.animation
      **
      = (object) original element
-    \*/
+     \*/
     elproto.animateWith = function (el, anim, params, ms, easing, callback) {
         var element = this;
         if (element.removed) {
@@ -4358,7 +4495,7 @@
      | var anim = Raphael.animation({cx: 10, cy: 20}, 2e3);
      | circle1.animate(anim); // run the given animation immediately
      | circle2.animate(anim.delay(500)); // run the given animation after 500 ms
-    \*/
+     \*/
     Animation.prototype.delay = function (delay) {
         var a = new Animation(this.anim, this.ms);
         a.times = this.times;
@@ -4376,7 +4513,7 @@
      - repeat (number) number iterations of animation. For infinite animation pass `Infinity`
      **
      = (object) new altered Animation object
-    \*/
+     \*/
     Animation.prototype.repeat = function (times) {
         var a = new Animation(this.anim, this.ms);
         a.del = this.del;
@@ -4604,7 +4741,7 @@
      - callback (function) #optional callback function. Will be called at the end of animation.
      **
      = (object) @Animation
-    \*/
+     \*/
     R.animation = function (params, ms, easing, callback) {
         if (params instanceof Animation) {
             return params;
@@ -4646,7 +4783,7 @@
      - animation (object) animation object, see @Raphael.animation
      **
      = (object) original element
-    \*/
+     \*/
     elproto.animate = function (params, ms, easing, callback) {
         var element = this;
         if (element.removed) {
@@ -4672,7 +4809,7 @@
      * Note, that during animation following events are triggered:
      *
      * On each animation frame event `anim.frame.<id>`, on start `anim.start.<id>` and on end `anim.finish.<id>`.
-    \*/
+     \*/
     elproto.setTime = function (anim, value) {
         if (anim && value != null) {
             this.status(anim, mmin(value, anim.ms) / anim.ms);
@@ -4699,7 +4836,7 @@
      o }
      * or
      = (object) original element if `value` is specified
-    \*/
+     \*/
     elproto.status = function (anim, value) {
         var out = [],
             i = 0,
@@ -4739,7 +4876,7 @@
      - anim (object) #optional animation object
      **
      = (object) original element
-    \*/
+     \*/
     elproto.pause = function (anim) {
         for (var i = 0; i < animationElements.length; i++) if (animationElements[i].el.id == this.id && (!anim || animationElements[i].anim == anim)) {
             if (eve("raphael.anim.pause." + this.id, this, animationElements[i].anim) !== false) {
@@ -4759,7 +4896,7 @@
      - anim (object) #optional animation object
      **
      = (object) original element
-    \*/
+     \*/
     elproto.resume = function (anim) {
         for (var i = 0; i < animationElements.length; i++) if (animationElements[i].el.id == this.id && (!anim || animationElements[i].anim == anim)) {
             var e = animationElements[i];
@@ -4781,7 +4918,7 @@
      - anim (object) #optional animation object
      **
      = (object) original element
-    \*/
+     \*/
     elproto.stop = function (anim) {
         for (var i = 0; i < animationElements.length; i++) if (animationElements[i].el.id == this.id && (!anim || animationElements[i].anim == anim)) {
             if (eve("raphael.anim.stop." + this.id, this, animationElements[i].anim) !== false) {
@@ -4803,26 +4940,26 @@
 
     // Set
     var Set = function (items) {
-        this.items = [];
-        this.length = 0;
-        this.type = "set";
-        if (items) {
-            for (var i = 0, ii = items.length; i < ii; i++) {
-                if (items[i] && (items[i].constructor == elproto.constructor || items[i].constructor == Set)) {
-                    this[this.items.length] = this.items[this.items.length] = items[i];
-                    this.length++;
+            this.items = [];
+            this.length = 0;
+            this.type = "set";
+            if (items) {
+                for (var i = 0, ii = items.length; i < ii; i++) {
+                    if (items[i] && (items[i].constructor == elproto.constructor || items[i].constructor == Set)) {
+                        this[this.items.length] = this.items[this.items.length] = items[i];
+                        this.length++;
+                    }
                 }
             }
-        }
-    },
-    setproto = Set.prototype;
+        },
+        setproto = Set.prototype;
     /*\
      * Set.push
      [ method ]
      **
      * Adds each argument to the current set.
      = (object) original element
-    \*/
+     \*/
     setproto.push = function () {
         var item,
             len;
@@ -4842,7 +4979,7 @@
      **
      * Removes last element and returns it.
      = (object) element
-    \*/
+     \*/
     setproto.pop = function () {
         this.length && delete this[this.length--];
         return this.items.pop();
@@ -4860,7 +4997,7 @@
      - callback (function) function to run
      - thisArg (object) context object for the callback
      = (object) Set object
-    \*/
+     \*/
     setproto.forEach = function (callback, thisArg) {
         for (var i = 0, ii = this.items.length; i < ii; i++) {
             if (callback.call(thisArg, this.items[i], i) === false) {
@@ -4896,7 +5033,7 @@
      [ method ]
      **
      * Removeds all elements from the set
-    \*/
+     \*/
     setproto.clear = function () {
         while (this.length) {
             this.pop();
@@ -4914,7 +5051,7 @@
      - count (number) number of element to remove
      - insertion… (object) #optional elements to insert
      = (object) set elements that were deleted
-    \*/
+     \*/
     setproto.splice = function (index, count, insertion) {
         index = index < 0 ? mmax(this.length + index, 0) : index;
         count = mmax(0, mmin(this.length - index, count));
@@ -4951,7 +5088,7 @@
      **
      - element (object) element to remove
      = (boolean) `true` if object was found & removed from the set
-    \*/
+     \*/
     setproto.exclude = function (el) {
         for (var i = 0, ii = this.length; i < ii; i++) if (this[i] == el) {
             this.splice(i, 1);
@@ -5075,7 +5212,7 @@
      = (object) the font you passed in
      > Usage
      | Cufon.registerFont(Raphael.registerFont({…}));
-    \*/
+     \*/
     R.registerFont = function (font) {
         if (!font.face) {
             return font;
@@ -5103,8 +5240,8 @@
                     w: path.w,
                     k: {},
                     d: path.d && "M" + path.d.replace(/[mlcxtrv]/g, function (command) {
-                            return {l: "L", c: "C", x: "z", t: "m", r: "l", v: "c"}[command] || "M";
-                        }) + "z"
+                        return {l: "L", c: "C", x: "z", t: "m", r: "l", v: "c"}[command] || "M";
+                    }) + "z"
                 };
                 if (path.k) {
                     for (var k in path.k) if (path[has](k)) {
@@ -5130,7 +5267,7 @@
      = (object) the font object
      > Usage
      | paper.print(100, 100, "Test string", paper.getFont("Times", 800), 30);
-    \*/
+     \*/
     paperproto.getFont = function (family, weight, style, stretch) {
         stretch = stretch || "normal";
         style = style || "normal";
@@ -5179,7 +5316,7 @@
      = (object) resulting path element, which consist of all letters
      > Usage
      | var txt = r.print(10, 50, "print", r.getFont("Museo"), 30).attr({fill: "#fff"});
-    \*/
+     \*/
     paperproto.print = function (x, y, string, font, size, origin, letter_spacing, line_spacing) {
         origin = origin || "middle"; // baseline|middle
         letter_spacing = mmax(mmin(letter_spacing || 0, 1), -1);
@@ -5247,7 +5384,7 @@
      |         fill: "#fc0"
      |     }
      | ]);
-    \*/
+     \*/
     paperproto.add = function (json) {
         if (R.is(json, "array")) {
             var res = this.set(),
@@ -5280,7 +5417,7 @@
      |     height = 50;
      | // this will draw a rectangular shape equivalent to "M10,20h40v50h-40z"
      | paper.path(Raphael.format("M{0},{1}h{2}v{3}h{4}z", x, y, width, height, -width));
-    \*/
+     \*/
     R.format = function (token, params) {
         var args = R.is(params, array) ? [0][concat](params) : arguments;
         token && R.is(token, string) && args.length - 1 && (token = token.replace(formatrg, function (str, i) {
@@ -5310,7 +5447,7 @@
      |         "negative width": -40
      |     }
      | }));
-    \*/
+     \*/
     R.fullfill = (function () {
         var tokenRegex = /\{([^\}]+)\}/g,
             objNotationRegex = /(?:(?:^|\.)(.+?)(?=\[|\.|$|\()|\[('|")(.+?)\2\])(\(\))?/g, // matches .xxxxx or ["xxxxx"] to run over object properties
@@ -5347,7 +5484,7 @@
      |     var paper = local_raphael(10, 10, 320, 200);
      |     …
      | })(Raphael.ninja());
-    \*/
+     \*/
     R.ninja = function () {
         oldRaphael.was ? (g.win.Raphael = oldRaphael.is) : delete Raphael;
         return R;
@@ -5371,7 +5508,7 @@
      | };
      | // then use it
      | paper.set(paper.circle(100, 100, 20), paper.circle(110, 100, 20)).red();
-    \*/
+     \*/
     R.st = setproto;
     // Firefox <3.6 fix: http://webreflection.blogspot.com/2009/11/195-chars-to-help-lazy-loading.html
     (function (doc, loaded, f) {
