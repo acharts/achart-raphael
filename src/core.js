@@ -1127,7 +1127,15 @@ var vector = require('./vector');
             pointList.push(vector.create(crp[i], crp[i+1]));
         }
 
-        var controlPointList = smoothBezier(pointList, 0.4, isLoop, [[0, 0], [100, 100]]);
+        var controlPointList;
+
+        (function() {
+            if(this.top.__ACharts__smoothProtect) {
+                controlPointList = smoothBezier(pointList, 0.4, isLoop, [[0, 0], [100, 100]]);
+            } else {
+                controlPointList = smoothBezier(pointList, 0.4, isLoop);
+            }
+        })();
 
         var len = pointList.length;
         var d1 = [];
