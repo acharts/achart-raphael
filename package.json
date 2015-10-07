@@ -22,6 +22,11 @@
       "sinon" : "1.6.0",
       "jquery" : "1.9.1"
     },
+    "build": {
+      "global": {
+        "eve": "eve"
+      }
+    },
     "engines": {
       "seajs": "2.2.1"
     }
